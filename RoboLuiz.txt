@@ -1,0 +1,128 @@
+package br.newtonpaiva;
+import java.awt.Color;
+
+import robocode.*;
+import sample.Fire;
+//import java.awt.Color;
+
+// API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
+
+/**
+ * Exemplo1 - a robot by (your name here)
+ */
+public class RoboLuiz extends Robot
+{
+	/**
+	 * run: Exemplo1's default behavior
+	 */
+	
+	public void run() {
+		/*
+		 	Cores do Robo
+		 	Seguencia de Cores:
+		 	
+		 	ROBOR - ARMA - RADAR - BALA - SCANNER AREA
+		 * */
+		setColors(Color.BLACK, Color.BLACK, Color.GREEN, Color.RED, Color.GREEN);
+		
+		// Robot main loop
+		
+		while(true) {
+			// Replace the next 4 lines with any behavior you would lik
+			
+			
+			turnGunRight(360);
+			ahead(80);
+			
+			//back(100);
+			//turnGunRight(180);
+		}
+	}
+
+	public void onScannedRobot(ScannedRobotEvent e) { // Eveto quando o radar acha um Robo
+
+			
+		double distancia = e.getDistance();
+			// Vida e Se a arma estiver fria
+			if( getEnergy() > 70 )
+			{
+				if( e.getDistance() < 20) 
+				{
+					if(distancia < distancia) 
+					{
+						fire(4);
+					}
+				}
+				else if(e.getDistance() > 20 || e.getDistance()< 60) 
+				{
+					
+					fire(2);
+				}else if (e.getDistance() > 60)
+					fire(1);
+					fire(1);
+			}
+			else if(getEnergy() > 50 || getEnergy() <70 ) 
+			{
+				if( e.getDistance() < 30) 
+				{
+					fire(3);
+					fire(3);
+				}
+				else if(e.getDistance() > 30 || e.getDistance()< 70) 
+				{
+					fire(2);
+					fire(2);
+				}
+				else
+				{
+					fire(1);
+					fire(1);
+				}
+			}
+			else if(getEnergy() < 50) 
+			{
+				if( e.getDistance() < 40) 
+				{
+					fire(2);
+					fire(2);
+				}else
+					fire(1);
+					fire(1);
+			}
+	}
+
+
+	//Se eu for atingido por 1 bala
+	public void onHitByBullet(HitByBulletEvent e) { 
+		// Replace the next line with any behavior you would like
+		turnLeft(60);
+		ahead(40);
+	}
+	
+
+	// Quando bate na parede
+	public void onHitWall(HitWallEvent e) {
+		
+		//Pegado o angulo da barede e virando + 45 graus
+		turnLeft( e.getBearing() + 45);
+		ahead(25);
+	}	
+	
+
+	// Quando bater em outro Robo
+	public void baterRobor(HitRobotEvent bt) 
+	{
+		if(getEnergy() <50) 
+		{
+			turnLeft(180); // viro 180�
+			ahead(90); // ando 30
+		}else
+		{
+			turnLeft(90); // viro 180�
+			ahead(40); // ando 30
+			fire(4);	// dou um tiro forte
+		}
+	}
+}
+
+
